@@ -1,0 +1,38 @@
+services:
+  # 1. The PostgreSQL Database Service
+  db:
+    image: postgres:14.23-alpine3.24
+    container_name: buguard_postgres
+    restart: always
+    # Docker will automatically read your .env file for the DB credentials
+    env_file:
+      - .env
+    # We pass the specific variables Postgres needs to initialize
+    environment:
+      POSTGRES_USER: ${DB_USER:-admin}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME:-asset_management}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  # 2. Your FastAPI Application Service
+  api:
+    build: .
+    container_name: buguard_api
+    restart: always
+    # This tells Docker to wait for the database to start before starting the API
+    depends_on:
+      - db
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    # We override the DB_HOST here because inside Docker, the database is reachable via the service name "db"
+    environment:
+      - DB_HOST=db
+
+# This creates a persistent volume so your database data isn't lost if the container stops
+volumes:
+  postgres_data:

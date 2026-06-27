@@ -4,6 +4,7 @@ from pydantic import BaseModel, Field
 from typing import Optional, List, Dict, Any
 from app.db.database import get_db
 from app.db.models import Asset
+from app.services.agent import run_autonomous_security_agent
 from app.services.asset_service import ingest_asset, create_relationship
 from app.services.ai import (
     analyze_asset_vulnerability, 
@@ -226,3 +227,25 @@ def generate_attack_surface_report(db: Session = Depends(get_db)):
         }
     except Exception as e:
         raise HTTPException(status_code=400, detail=f"Report Generation Failed: {str(e)}")
+
+# ==========================================
+# 5. Analyze AI Agent
+# ==========================================
+class AgentQuery(BaseModel):
+    question: str = Field(..., description="Ask the autonomous agent a security question.")
+
+@router.post("/agent/chat")
+def chat_with_security_agent(query: AgentQuery):
+    """
+    Bonus Task: Autonomous Agent
+    Passes a natural language question to the LLM. The LLM will autonomously
+    decide to call the internal API to gather data before responding.
+    """
+    try:
+        response = run_autonomous_security_agent(query.question)
+        return {
+            "status": "success",
+            "agent_response": response
+        }
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=f"Agent workflow failed: {str(e)}")

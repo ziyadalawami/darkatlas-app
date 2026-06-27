@@ -34,25 +34,25 @@ Use this method if you are actively writing code and want the FastAPI server to 
 **1. Create a new environment using Miniconda:**
 
 ```bash
-$ conda create -n darkatlas-app python=3.11 -y
+conda create -n darkatlas-app python=3.11 -y
 ```
 
 **2. Activate the environment:**
 
 ```bash
-$ conda activate darkatlas-app
+conda activate darkatlas-app
 ```
 
 **3. Install the required packages:**
 
 ```bash
-$ pip install -r requirements.txt
+pip install -r requirements.txt
 ```
 
 **4. Setup the environment variables:**
 
 ```bash
-$ cp .env.example .env
+cp .env.example .env
 ```
 
 **5. Configure your `.env` file:** Open the `.env` file and configure these exact values:
@@ -70,13 +70,13 @@ OPENROUTER_API_KEY=your_openrouter_api_key_here     # <- set your OpenRouter API
 *Note: This starts only the PostgreSQL database.*
 
 ```bash
-$ docker compose up -d db
+docker compose up -d db
 ```
 
 **7. Run the Host API:**
 
 ```bash
-$ uvicorn app.main:app --reload --port 8000
+uvicorn app.main:app --reload --port 8000
 ```
 
 The API will be available at `http://localhost:8000`. You can view the interactive Swagger documentation at `http://localhost:8000/docs`.
@@ -90,7 +90,7 @@ Use this method if you just want to run the application fully containerized with
 **1. Setup the environment variables:**
 
 ```bash
-$ cp .env.example .env
+cp .env.example .env
 ```
 
 *(Remember to add your database credentials and OpenRouter API key to the `.env` file!)*
@@ -98,8 +98,10 @@ $ cp .env.example .env
 **2. Build and start all services (API + Database):**
 
 ```bash
-$ docker compose up --build
+docker compose up --build -d
 ```
+
+> **Tip:** The `-d` flag runs the containers in the background ("detached" mode) so you can keep using your current terminal window. If you prefer to watch the live application logs as they happen, simply run the command without the `-d`.
 
 The API will be available at `http://localhost:8000/docs`.
 

@@ -91,7 +91,7 @@ Ensure your `.env` file is created and populated with your database credentials 
 **2. Build and run all containers:**
 
 ```bash
-$ docker compose up -d --build
+$ docker compose up --build
 ```
 
 This will spin up both the PostgreSQL database and the FastAPI application inside isolated containers.

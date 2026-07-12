@@ -8,13 +8,13 @@ An Asset Management API built with FastAPI, PostgreSQL, and LangChain to ingest,
 ├── /assets/
 │   ├── POST /                 # Ingest a single asset
 │   ├── POST /batch            # Batch ingest arrays & map relationships
-│   ├── POST /query            # Task 1: Natural Language AI Query
-│   ├── GET  /{id}/analyze     # Task 2: AI Vulnerability Analysis
-│   └── POST /{id}/categorize  # Task 3: AI Categorization & Tagging
+│   ├── POST /query            # Natural Language AI Query
+│   ├── GET  /{id}/analyze     # AI Vulnerability Analysis
+│   └── POST /{id}/categorize  # AI Categorization & Tagging
 ├── /reports/
-│   └── GET  /generate         # Task 4: AI Executive Markdown Report
+│   └── GET  /generate         # AI Executive Markdown Report
 └── /agent/
-    └── POST /chat             # Bonus Task: Autonomous Security Agent
+    └── POST /chat             # Autonomous Security Agent
 ```
 
 ---
@@ -150,7 +150,7 @@ Demonstrates the two-pass batch system mapping temporary JSON IDs to database UU
 ]
 ```
 
-### 3. Natural Language Asset Query (Task 1)
+### 3. Natural Language Asset Query
 
 Translate English into structured database filters to find specific assets.<br>
 **POST** `/api/v1/assets/query`
@@ -161,28 +161,28 @@ Translate English into structured database filters to find specific assets.<br>
 }
 ```
 
-### 4. AI Vulnerability Analysis (Task 2)
+### 4. AI Vulnerability Analysis
 
 Generate a high-impact security assessment for a specific asset.<br>
 **GET** `/api/v1/assets/{id}/analyze`
 
 *(No payload required. Pass the asset's UUID in the URL path.)*
 
-### 5. Automated AI Categorization (Task 3)
+### 5. Automated AI Categorization
 
 Instructs the LLM to classify an asset's environment, category, and criticality, then saves it to the DB.<br>
 **POST** `/api/v1/assets/{id}/categorize`
 
 *(No payload required. Pass the asset's UUID in the URL path.)*
 
-### 6. AI Executive Markdown Report (Task 4)
+### 6. AI Executive Markdown Report
 
 Generate a comprehensive security brief summarizing the entire external attack surface.<br>
 **GET** `/api/v1/reports/generate`
 
 *(No payload required. Returns a formatted markdown report.)*
 
-### 7. Autonomous Security Agent (Bonus Task)
+### 7. Autonomous Security Agent
 
 Ask a complex security question. The LangChain agent will autonomously call internal API tools to fetch the required data before responding.<br>
 **POST** `/api/v1/agent/chat`

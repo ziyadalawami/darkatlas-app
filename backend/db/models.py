@@ -7,7 +7,7 @@ from backend.db.database import Base
 class Asset(Base):
     __tablename__ = "assets"
 
-    # Core fields required by the task specifications
+    # Core fields required
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     type = Column(String, nullable=False) 
     value = Column(String, nullable=False, unique=True) 
@@ -24,11 +24,11 @@ class AssetRelationship(Base):
 
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     
-    # The starting asset (e.g., the Subdomain)
+    # The starting asset
     source_asset_id = Column(UUID(as_uuid=True), ForeignKey("assets.id", ondelete="CASCADE"), nullable=False)
     
-    # The ending asset (e.g., the parent Domain)
+    # The ending asset
     target_asset_id = Column(UUID(as_uuid=True), ForeignKey("assets.id", ondelete="CASCADE"), nullable=False)
     
-    # The type of link (e.g., 'subdomain_of', 'resolves_to')
+    # The type of link
     relationship_type = Column(String, nullable=False)

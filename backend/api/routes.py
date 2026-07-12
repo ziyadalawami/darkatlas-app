@@ -120,12 +120,12 @@ def batch_ingest_assets(assets: List[AssetCreate], db: Session = Depends(get_db)
     return results
 
 # ==========================================
-# 4. AI TASKS (LangChain Integrations)
+# 4. LangChain Integrations
 # ==========================================
 
 @router.get("/assets/{asset_id}/analyze")
 def analyze_asset(asset_id: str, db: Session = Depends(get_db)):
-    """Task 2: AI Security Analysis"""
+    """AI Security Analysis"""
     db_asset = db.query(Asset).filter(Asset.id == asset_id).first()
     if not db_asset:
         raise HTTPException(status_code=404, detail="Asset not found in database")
@@ -146,7 +146,7 @@ def analyze_asset(asset_id: str, db: Session = Depends(get_db)):
 
 @router.post("/assets/{asset_id}/categorize")
 def categorize_asset_endpoint(asset_id: str, db: Session = Depends(get_db)):
-    """Task 3: Automated Categorization"""
+    """Automated Categorization"""
     db_asset = db.query(Asset).filter(Asset.id == asset_id).first()
     if not db_asset:
         raise HTTPException(status_code=404, detail="Asset not found")
@@ -182,7 +182,7 @@ def categorize_asset_endpoint(asset_id: str, db: Session = Depends(get_db)):
 
 @router.post("/assets/query")
 def query_assets_by_language(nl_query: NLQuery, db: Session = Depends(get_db)):
-    """Task 1: Natural Language Querying"""
+    """Natural Language Querying"""
     try:
         filters = translate_nl_query(nl_query.query)
         if not filters:
@@ -210,7 +210,7 @@ def query_assets_by_language(nl_query: NLQuery, db: Session = Depends(get_db)):
 
 @router.get("/reports/generate")
 def generate_attack_surface_report(db: Session = Depends(get_db)):
-    """Task 4: Report Generation"""
+    """Report Generation"""
     # Edge Case: Limit report scope so AI doesn't crash on tokens
     assets = db.query(Asset).limit(50).all()
     if not assets:
@@ -237,7 +237,6 @@ class AgentQuery(BaseModel):
 @router.post("/agent/chat")
 def chat_with_security_agent(query: AgentQuery):
     """
-    Bonus Task: Autonomous Agent
     Passes a natural language question to the LLM. The LLM will autonomously
     decide to call the internal API to gather data before responding.
     """

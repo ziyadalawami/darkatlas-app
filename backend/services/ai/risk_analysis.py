@@ -1,4 +1,3 @@
-# task number 2
 import os
 from dotenv import load_dotenv
 from langchain_openai import ChatOpenAI

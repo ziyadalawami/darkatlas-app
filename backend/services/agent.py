@@ -19,7 +19,6 @@ def query_internal_database(search_request: str) -> str:
     (e.g., 'Find all critical domains', 'Show me active staging assets').
     """
     try:
-        # The agent literally calls your Task 1 API endpoint!
         response = requests.post(
             "http://127.0.0.1:8000/api/v1/assets/query",
             json={"query": search_request},

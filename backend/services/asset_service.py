@@ -12,17 +12,17 @@ def ingest_asset(db: Session, asset_data: dict):
     existing_asset = db.query(Asset).filter(Asset.value == asset_data["value"]).first()
     
     if existing_asset:
-        # 1. Edge Case: Re-appearing assets (set back to active)
+        # 1. Edge Case: Re-appearing assets
         existing_asset.last_seen = datetime.utcnow()
         existing_asset.status = "active" 
         
-        # 2. Edge Case: Conflicting data (Merge strategy)
+        # 2. Edge Case: Conflicting data
         if "asset_metadata" in asset_data:
             current_meta = existing_asset.asset_metadata or {}
             current_meta.update(asset_data["asset_metadata"])
             existing_asset.asset_metadata = current_meta
             
-        # Merge tags (avoiding duplicates)
+        # Merge tags
         if "tags" in asset_data:
             current_tags = set(existing_asset.tags or [])
             new_tags = set(asset_data["tags"] or [])

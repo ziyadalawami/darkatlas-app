@@ -27,26 +27,26 @@ An Asset Management API built with FastAPI, PostgreSQL, and LangChain to ingest,
 
 ---
 
-## 💻 Local Development Setup (Recommended for coding)
+## 💻 Local Development Setup
 
 Use this method if you are actively writing code and want the FastAPI server to hot-reload when you save files.
 
 **1. Create a new environment using Miniconda:**
 
 ```bash
-conda create -n darkatlas-app python=3.11 -y
+conda create -n darkatlas-env python=3.11 -y
 ```
 
 **2. Activate the environment:**
 
 ```bash
-conda activate darkatlas-app
+conda activate darkatlas-env
 ```
 
 **3. Install the required packages:**
 
 ```bash
-pip install -r requirements.txt
+pip install -r backend/requirements.txt
 ```
 
 **4. Setup the environment variables:**
@@ -58,16 +58,14 @@ cp .env.example .env
 **5. Configure your `.env` file:** Open the `.env` file and configure these exact values:
 
 ```env
-DB_USER=admin
-DB_PASSWORD=your_local_database_password            # <- set a password to your database
-DB_HOST=localhost
-DB_PORT=5432
-DB_NAME=asset_management
-OPENROUTER_API_KEY=your_openrouter_api_key_here     # <- set your OpenRouter API key
+# REQUIRED CREDENTIALS
+DB_PASSWORD=your_secure_database_password
+OPENROUTER_API_KEY=your_openrouter_api_key_here
 ```
+*(Note: Other values in the env file are optional to change.)*
 
-**6. Run the Database Container:**
-*Note: This starts only the PostgreSQL database.*
+**6. Run the Database Container:**<br>
+*(Note: This starts only the PostgreSQL database.)*
 
 ```bash
 docker compose up -d db
@@ -76,7 +74,7 @@ docker compose up -d db
 **7. Run the Host API:**
 
 ```bash
-uvicorn app.main:app --reload --port 8000
+uvicorn backend.main:app --reload --port 8000
 ```
 
 The API will be available at `http://localhost:8000`. You can view the interactive Swagger documentation at `http://localhost:8000/docs`.
@@ -130,7 +128,7 @@ You can test all API functionalities using the interactive Swagger UI at `http:/
 
 ### 2. Batch Ingest & Map Relationships
 
-Demonstrates the two-pass batch system mapping temporary JSON IDs to database UUIDs.
+Demonstrates the two-pass batch system mapping temporary JSON IDs to database UUIDs.<br>
 **POST** `/api/v1/assets/batch`
 
 ```json
@@ -154,7 +152,7 @@ Demonstrates the two-pass batch system mapping temporary JSON IDs to database UU
 
 ### 3. Natural Language Asset Query (Task 1)
 
-Translate English into structured database filters to find specific assets.
+Translate English into structured database filters to find specific assets.<br>
 **POST** `/api/v1/assets/query`
 
 ```json
@@ -165,25 +163,28 @@ Translate English into structured database filters to find specific assets.
 
 ### 4. AI Vulnerability Analysis (Task 2)
 
-Generate a high-impact security assessment for a specific asset.
+Generate a high-impact security assessment for a specific asset.<br>
 **GET** `/api/v1/assets/{id}/analyze`
+
 *(No payload required. Pass the asset's UUID in the URL path.)*
 
 ### 5. Automated AI Categorization (Task 3)
 
-Instructs the LLM to classify an asset's environment, category, and criticality, then saves it to the DB.
+Instructs the LLM to classify an asset's environment, category, and criticality, then saves it to the DB.<br>
 **POST** `/api/v1/assets/{id}/categorize`
+
 *(No payload required. Pass the asset's UUID in the URL path.)*
 
 ### 6. AI Executive Markdown Report (Task 4)
 
-Generate a comprehensive security brief summarizing the entire external attack surface.
+Generate a comprehensive security brief summarizing the entire external attack surface.<br>
 **GET** `/api/v1/reports/generate`
+
 *(No payload required. Returns a formatted markdown report.)*
 
 ### 7. Autonomous Security Agent (Bonus Task)
 
-Ask a complex security question. The LangChain agent will autonomously call internal API tools to fetch the required data before responding.
+Ask a complex security question. The LangChain agent will autonomously call internal API tools to fetch the required data before responding.<br>
 **POST** `/api/v1/agent/chat`
 
 ```json

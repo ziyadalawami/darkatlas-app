@@ -1,9 +1,9 @@
 from fastapi import FastAPI
-from app.db.database import engine
-from app.db import models
+from backend.db.database import engine
+from backend.db import models
 
 # Import your new router!
-from app.api import routes
+from backend.api import routes
 
 models.Base.metadata.create_all(bind=engine)
 

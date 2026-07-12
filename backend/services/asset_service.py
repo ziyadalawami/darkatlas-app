@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
-from app.db.models import Asset
+from backend.db.models import Asset
 from datetime import datetime
-from app.db.models import Asset, AssetRelationship
+from backend.db.models import Asset, AssetRelationship
 
 def ingest_asset(db: Session, asset_data: dict):
     """

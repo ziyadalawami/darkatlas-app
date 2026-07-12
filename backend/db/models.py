@@ -2,7 +2,7 @@ import uuid
 from datetime import datetime
 from sqlalchemy import Column, String, DateTime, ForeignKey
 from sqlalchemy.dialects.postgresql import UUID, JSONB, ARRAY
-from app.db.database import Base
+from backend.db.database import Base
 
 class Asset(Base):
     __tablename__ = "assets"

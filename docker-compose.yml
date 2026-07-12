@@ -19,14 +19,14 @@ services:
 
   # 2. Your FastAPI Application Service
   api:
-    build: .
+    build: ./backend
     container_name: buguard_api
     restart: always
     # This tells Docker to wait for the database to start before starting the API
     depends_on:
       - db
     ports:
-      - "8000:8000"
+      - "${API_PORT:-8000}:8000"
     env_file:
       - .env
     # We override the DB_HOST here because inside Docker, the database is reachable via the service name "db"

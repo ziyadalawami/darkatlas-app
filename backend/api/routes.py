@@ -2,11 +2,11 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from pydantic import BaseModel, Field
 from typing import Optional, List, Dict, Any
-from app.db.database import get_db
-from app.db.models import Asset
-from app.services.agent import run_autonomous_security_agent
-from app.services.asset_service import ingest_asset, create_relationship
-from app.services.ai import (
+from backend.db.database import get_db
+from backend.db.models import Asset
+from backend.services.agent import run_autonomous_security_agent
+from backend.services.asset_service import ingest_asset, create_relationship
+from backend.services.ai import (
     analyze_asset_vulnerability, 
     enrich_and_categorize_asset, 
     translate_nl_query, 
